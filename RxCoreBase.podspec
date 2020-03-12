@@ -48,6 +48,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
     ss.private_header_files = 'Sources/Base/Scene/**/*+Internal.h'
     ss.dependency 'RxSwift'
     ss.dependency 'RxRelay'
+    ss.dependency 'RxCocoa'
   end
   
   s.subspec 'ReduxExtension' do |ss|

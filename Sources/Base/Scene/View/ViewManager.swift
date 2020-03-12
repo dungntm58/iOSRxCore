@@ -5,18 +5,19 @@
 //  Created by Robert on 7/21/19.
 //
 
+import RxSwift
+import RxCocoa
 import RxCoreRedux
 
-public class ViewManager: ViewManagable {
+final public class ViewManager: ViewManagable {
     private var _currentViewController: UIViewController?
     private var rootViewController: UIViewController
     fileprivate weak var scene: Scenable?
-
-    lazy var proxyDelegate = ViewManagerProxyDelegateImpl(viewManager: self)
+    let disposeBag = DisposeBag()
 
     public init(viewController: UIViewController) {
         self.rootViewController = viewController
-        viewController.viewManagerProxyDelegate = proxyDelegate
+        addHook(viewController)
     }
 
     private(set) public var currentViewController: UIViewController {
@@ -32,7 +33,7 @@ public class ViewManager: ViewManagable {
         #if !RELEASE && !PRODUCTION
         Swift.print("Present view controller", type(of: viewController))
         #endif
-        viewController.viewManagerProxyDelegate = proxyDelegate
+        addHook(viewController)
         self.currentViewController.present(viewController, animated: true, completion: completion)
     }
 
@@ -40,7 +41,7 @@ public class ViewManager: ViewManagable {
         #if !RELEASE && !PRODUCTION
         Swift.print("Push view controller", type(of: viewController))
         #endif
-        viewController.viewManagerProxyDelegate = proxyDelegate
+        addHook(viewController)
         (self.currentViewController as? UINavigationController ?? self.currentViewController.navigationController)?.pushViewController(viewController, animated: true)
     }
 
@@ -48,7 +49,7 @@ public class ViewManager: ViewManagable {
         #if !RELEASE && !PRODUCTION
         Swift.print("Show view controller", type(of: viewController))
         #endif
-        viewController.viewManagerProxyDelegate = proxyDelegate
+        addHook(viewController)
         self.currentViewController.show(viewController, sender: sender)
     }
 
@@ -68,6 +69,24 @@ public class ViewManager: ViewManagable {
 }
 
 extension ViewManager {
+    func addHook(_ viewController: UIViewController) {
+        Observable
+            .combineLatest(
+                viewController.rx.methodInvoked(#selector(UIViewController.viewWillAppear(_:))),
+                Observable.just(viewController)
+            ) { $1 }
+            .subscribe(onNext: self.viewControllerWillAppear(_:))
+            .disposed(by: disposeBag)
+
+        Observable
+            .combineLatest(
+                viewController.rx.methodInvoked(#selector(UIViewController.viewWillDisappear(_:))),
+                Observable.just(viewController)
+            ) { $1 }
+            .subscribe(onNext: self.viewControllerWillDisappear(_:))
+            .disposed(by: disposeBag)
+    }
+
     func bind(scene: Scenable) {
         self.scene = scene
         if let bindable = rootViewController as? SceneBindable {
@@ -97,9 +116,7 @@ extension ViewManager {
             sceneBindable.deactivate()
         }
     }
-}
 
-private extension ViewManager {
     func internalDismiss(from viewController: UIViewController, animated flag: Bool = true, completion: (() -> Void)? = nil) {
         if let naviViewController = viewController.navigationController {
             if naviViewController.viewControllers.first == viewController {
