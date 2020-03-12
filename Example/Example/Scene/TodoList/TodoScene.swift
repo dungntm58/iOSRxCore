@@ -13,11 +13,14 @@ class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
     typealias Action = TodoStore.Action
     
     lazy var navigationController: UINavigationController = {
-        UINavigationController(rootViewController: currentViewController)
+        let vc = UINavigationController(rootViewController: currentViewController)
+        vc.modalPresentationStyle = .fullScreen
+        return vc
     }()
     
     convenience init() {
         let todoVC = AppStoryboard.main.viewController(of: TodoTabBarController.self)
+        todoVC.modalPresentationStyle = .fullScreen
         self.init(store: TodoStore(), viewController: todoVC)
     }
 
@@ -33,6 +36,7 @@ class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {
     
     func showTodoDetail() {
         let vc = AppStoryboard.main.viewController(of: TodoDetailViewController.self)
+        vc.modalPresentationStyle = .fullScreen
         present(vc)
     }
 }

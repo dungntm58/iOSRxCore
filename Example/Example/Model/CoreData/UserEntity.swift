@@ -14,17 +14,11 @@ import CoreData
 class UserEntity: Identifiable, Decodable, ManagedObjectBox {
     let core: UserCoreEntity
     
-    var id: String {
-        return core.id ?? ""
-    }
+    var id: String { core.id ?? "" }
     
-    var email: String {
-        return core.email ?? ""
-    }
+    var email: String { core.email ?? "" }
     
-    var name: String {
-        return core.name ?? ""
-    }
+    var name: String { core.name ?? "" }
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -55,7 +49,5 @@ class UserEntity: Identifiable, Decodable, ManagedObjectBox {
 extension UserEntity: CoreDataIdentifiable {
     typealias IDType = String
     
-    static func keyPathForID() -> String {
-        return #keyPath(UserCoreEntity.id)
-    }
+    static func keyPathForID() -> String { #keyPath(UserCoreEntity.id) }
 }

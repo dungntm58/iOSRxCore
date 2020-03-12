@@ -12,26 +12,16 @@ import RxCoreList
 import Toaster
 
 class TodoCollectionView: BaseCollectionView, Appearant {
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        
-        configure()
-    }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        configure()
-    }
-    
-    func configure() {
+    func willAppear(_ animated: Bool) {
+        _ = viewSource
     }
     
     var store: TodoStore? {
-        return (viewController as? TodoList2ViewController)?.scene?.store
+        (viewController as? TodoList2ViewController)?.scene?.store
     }
     
     override func initializeViewSource() -> DataViewSource? {
-        return TodoList2ViewSource(store: store)
+        TodoList2ViewSource(store: store)
     }
 }

@@ -14,7 +14,7 @@ class UserDataStore: CoreDataIdentifiableDataStore {
     let configuration: CoreDataConfiguration
     
     func make(total: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> PaginationDTO {
-        return AppPaginationDTO(total: total, pageSize: size, next: previous?.id as Any, previous: next?.id as Any)
+        AppPaginationDTO(total: total, pageSize: size, next: previous?.id as Any, previous: next?.id as Any)
     }
     
     init() {

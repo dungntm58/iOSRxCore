@@ -17,23 +17,21 @@ class TodoListEpic: BaseListEpic<Todo.Action, Todo.State, TodoWorker> {
     }
     
     override func toPaginationRequestOptions(from payload: PayloadListRequestable?) -> PaginationRequestOptions? {
-        return payload as? PaginationRequestOptions
+        payload as? PaginationRequestOptions
     }
 }
 
 extension Payload.List.Request: PaginationRequestOptions {
     var requestOptions: RequestOption? {
-        return [
+        [
             "page": page
         ]
     }
     
-    var repositoryOptions: RepositoryOption {
-        return .default
-    }
+    var repositoryOptions: RepositoryOption { .default }
     
     var storeFetchOptions: DataStoreFetchOption {
-        return .page(page, size: count, predicate: nil, sorting: [.desc(property: "createdAt")], validate: true)
+        .page(page, size: count, predicate: nil, sorting: [.desc(property: "createdAt")], validate: true)
     }
 }
 
@@ -47,7 +45,7 @@ class TodoCreateEpic: Epic {
     }
     
     func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
-        return dispatcher
+        dispatcher
             .of(type: .createTodo)
             .compactMap { $0.payload as? String }
             .flatMap(worker.createNew)

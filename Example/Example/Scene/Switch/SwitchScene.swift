@@ -13,6 +13,7 @@ class SwitchScene: ViewableScene, Lauchable {
     
     init() {
         let vc = AppStoryboard.main.viewController(of: SuperSwitcherViewController.self)
+        vc.modalPresentationStyle = .fullScreen
         super.init(viewManager: vc)
         vc.scene = self
     }

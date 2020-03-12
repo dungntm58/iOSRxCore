@@ -19,10 +19,10 @@ class TodoWorker: ListDataWorker {
     }
     
     func getList(options: PaginationRequestOptions?) -> Observable<ListDTO<TodoEntity>> {
-        return todoRepository.getList(options: options)
+        todoRepository.getList(options: options)
     }
     
     func createNew(_ title: String) -> Observable<TodoEntity> {
-        return todoRepository.create(TodoEntity(title: title), options: nil)
+        todoRepository.create(TodoEntity(title: title), options: nil)
     }
 }

@@ -32,21 +32,13 @@ class TodoEntity: ExpirableObject, Identifiable, Decodable {
         self.title = title
     }
     
-    var id: String {
-        return _id
-    }
+    var id: String { _id }
     
     func toLiteralDictionary() -> [String: Any] {
-        return [
+        [
             "title": title
         ]
     }
     
-    override open class func primaryKey() -> String? {
-        return "_id"
-    }
-    
-    override public class func shouldIncludeInDefaultSchema() -> Bool {
-        return true
-    }
+    override open class func primaryKey() -> String? { "_id" }
 }

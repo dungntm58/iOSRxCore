@@ -10,9 +10,7 @@ import RxCoreRedux
 
 enum Login {
     enum LoginActionType: ErrorActionType {
-        static var receiveError: LoginActionType {
-            return ._error
-        }
+        static var receiveError: LoginActionType { ._error }
         
         case login
         case register

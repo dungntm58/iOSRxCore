@@ -18,11 +18,7 @@ class UserEntity: Object, Identifiable, Decodable {
     @objc dynamic var email: String = ""
     @objc dynamic var name: String = ""
     
-    var id: IDType {
-        return _id
-    }
+    var id: IDType { _id }
     
-    override open class func primaryKey() -> String? {
-        return "_id"
-    }
+    override open class func primaryKey() -> String? { "_id" }
 }

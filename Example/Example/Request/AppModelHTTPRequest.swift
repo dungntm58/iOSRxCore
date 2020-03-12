@@ -13,7 +13,7 @@ import RxCoreBase
 
 extension HTTPRequest {
     var defaultHeaders: HTTPHeaders? {
-        return [
+        [
             "Authorization": AppPreferences.instance.token ?? ""
         ]
     }
@@ -26,40 +26,28 @@ extension HTTPRequest {
         #endif
     }
     
-    var acceptableStatusCodes: [Int] {
-        return Array(200..<300)
-    }
+    var acceptableStatusCodes: [Int] { Array(200..<300) }
 }
 
 extension RequestAPI {
-    var acceptableStatusCodes: [Int] {
-        return []
-    }
+    var acceptableStatusCodes: [Int] { [] }
 }
 
 extension RequestOption {
-    func merge(with parameters: Parameters) -> RequestOption {
-        return self
-    }
+    func merge(with parameters: Parameters) -> RequestOption { self }
 }
 
 enum AppEnvironment: RequestEnvironment {
     case development
     case production
     
-    var config: RequestConfiguration {
-        return self
-    }
+    var config: RequestConfiguration { self }
 }
 
 extension AppEnvironment: RequestConfiguration {
-    var baseUrl: String {
-        return "https://uetcc-todo-app.herokuapp.com"
-    }
+    var baseUrl: String { "https://uetcc-todo-app.herokuapp.com" }
     
-    var versions: [String] {
-        return []
-    }
+    var versions: [String] { [] }
 }
 
 enum AppAPI: RequestAPI {

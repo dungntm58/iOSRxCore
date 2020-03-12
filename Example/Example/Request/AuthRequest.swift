@@ -22,10 +22,10 @@ class AuthRequest: HTTPRequest, Decoding {
     }
     
     func login(_ options: RequestOption?) -> Observable<Response> {
-        return execute(api: .login, options: options)
+        execute(api: .login, options: options)
     }
     
     func signup(_ options: RequestOption?) -> Observable<Response> {
-        return execute(api: .signup, options: options)
+        execute(api: .signup, options: options)
     }
 }

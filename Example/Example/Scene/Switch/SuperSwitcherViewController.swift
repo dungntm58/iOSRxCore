@@ -27,7 +27,5 @@ class SuperSwitcherViewController: UIViewController, SceneBindableRef, ViewManag
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+    override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 }

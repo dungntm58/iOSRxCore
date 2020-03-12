@@ -20,7 +20,8 @@ class AuthRepository {
     }
     
     func login(_ options: RequestOption) -> Observable<UserEntity> {
-        return request.login(options)
+        request
+            .login(options)
             .map {
                 response -> AuthDto in
                 guard let data = response.result else {
@@ -36,7 +37,8 @@ class AuthRepository {
     }
     
     func signup(_ options: RequestOption) -> Observable<UserEntity> {
-        return request.signup(options)
+        request
+            .signup(options)
             .map {
                 response -> AuthDto in
                 guard let data = response.result else {

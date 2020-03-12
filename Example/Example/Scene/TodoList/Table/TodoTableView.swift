@@ -11,24 +11,15 @@ import RxCoreList
 import RxCoreBase
 
 class TodoTableView: BaseTableView, Appearant {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configure()
-    }
-    
-    override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: frame, style: style)
-        configure()
-    }
-    
-    func configure() {
+    func willAppear(_ animated: Bool) {
+        _ = viewSource
     }
     
     var store: TodoStore? {
-        return (viewController as? TodoListViewController)?.scene?.store
+        (viewController as? TodoListViewController)?.scene?.store
     }
     
     override func initializeViewSource() -> BaseTableView.DataViewSource? {
-        return TodoListViewSource(store: store)
+        TodoListViewSource(store: store)
     }
 }

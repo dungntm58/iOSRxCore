@@ -16,7 +16,5 @@ struct UserEntity: Identifiable, Codable, Equatable {
     var email: String = ""
     var name: String = ""
     
-    var id: IDType {
-        return _id
-    }
+    var id: IDType { _id }
 }

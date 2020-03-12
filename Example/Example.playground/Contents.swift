@@ -46,7 +46,7 @@ class ExStore: Store<ExAction, ExState> {
                                 print("Dispose flatmap")
                             })
                     })
-                    .takeUntil(actionStream.of(type: .d).do(onNext: { action in print("Take until d") }))
+                    .takeUntil(actionStream.of(type: .d))
                     .do(onNext: {
                         action in
                         print("Start with a, next:", String(describing: action))
@@ -88,4 +88,3 @@ let store = ExStore()
 store.activate()
 
 store.dispatch(type: .a, payload: 0)
-store.dispatch(type: .d, payload: 0)

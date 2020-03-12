@@ -30,7 +30,7 @@ class AppPreferences {
             UserDefaults.standard.set(newValue, forKey: Key.authenToken.rawValue)
         }
         get {
-            return UserDefaults.standard.string(forKey: Key.authenToken.rawValue)
+            UserDefaults.standard.string(forKey: Key.authenToken.rawValue)
         }
     }
     

@@ -11,6 +11,7 @@ import RxCoreBase
 class LoginScene: ConnectableViewableScene<LoginStore> {
     convenience init() {
         let vc = AppStoryboard.main.viewController(of: LoginViewController.self)
+        vc.modalPresentationStyle = .fullScreen
         self.init(store: LoginStore(), viewController: vc)
     }
     

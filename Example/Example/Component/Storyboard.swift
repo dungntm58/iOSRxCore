@@ -12,11 +12,7 @@ import RxCoreBase
 enum AppStoryboard: String, Storyboard {
     case main = "Main"
     
-    var name: String {
-        return rawValue
-    }
+    var name: String { rawValue }
     
-    var bundle: Bundle? {
-        return nil
-    }
+    var bundle: Bundle? { nil }
 }

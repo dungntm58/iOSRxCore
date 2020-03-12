@@ -17,9 +17,7 @@ enum Todo {
         struct Request: RequestOption {
             let id: String
             
-            var parameters: Parameters? {
-                return nil
-            }
+            var parameters: Parameters? { nil }
         }
     }
     
@@ -55,13 +53,14 @@ enum Todo {
 }
 
 extension TodoEntity: ViewModelItem, Differentiable {
-    var differenceIdentifier: String {
-        return id
-    }
+    var differenceIdentifier: String { id }
     
     typealias DifferenceIdentifier = String
     
     func isContentEqual(to source: TodoEntity) -> Bool {
-        return title == source.title && completed == source.completed && owner == source.owner && createdAt == source.createdAt
+        title == source.title
+            && completed == source.completed
+            && owner == source.owner
+            && createdAt == source.createdAt
     }
 }

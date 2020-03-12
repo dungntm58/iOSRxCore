@@ -31,12 +31,10 @@ struct TodoEntity: Identifiable, Decodable, Equatable {
         self.title = title
     }
     
-    var id: String {
-        return _id
-    }
+    var id: String { _id }
     
     func toLiteralDictionary() -> [String: Any] {
-        return [
+        [
             "title": title
         ]
     }

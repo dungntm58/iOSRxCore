@@ -22,28 +22,28 @@ class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {
     }
     
     func get(id: String, options: RequestOption? = nil) -> Observable<Response> {
-        return execute(api: .getTodos(id: id), options: options)
+        execute(api: .getTodos(id: id), options: options)
     }
     
     func delete(id: String, options: RequestOption? = nil) -> Observable<Response> {
-        return execute(api: .delete(id: id), options: options)
+        execute(api: .delete(id: id), options: options)
     }
     
     func create(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
-        return execute(api: .createTodo, options: value.toLiteralDictionary())
+        execute(api: .createTodo, options: value.toLiteralDictionary())
     }
     
     func update(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
-        return execute(api: .updateTodo(id: value.id), options: value.toLiteralDictionary())
+        execute(api: .updateTodo(id: value.id), options: value.toLiteralDictionary())
     }
     
     func delete(_ value: TodoEntity, options: RequestOption? = nil) -> Observable<Response> {
-        return self.delete(id: value.id, options: options)
+        self.delete(id: value.id, options: options)
     }
     
     #if DEBUG
     static func mockFileName(for api: API, options: RequestOption?, header: HTTPHeaders?) -> String? {
-        return nil
+        nil
     }
     #endif
 }
@@ -59,6 +59,6 @@ class TodoListRequest: ListModelHTTPRequest, Decoding {
     }
     
     func getList(options: RequestOption?) -> Observable<Response> {
-        return execute(api: .getTodos(id: nil), options: options)
+        execute(api: .getTodos(id: nil), options: options)
     }
 }

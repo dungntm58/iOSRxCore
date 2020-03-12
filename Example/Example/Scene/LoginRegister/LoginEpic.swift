@@ -21,7 +21,7 @@ class LoginEpic: Epic {
     }
     
     func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
-        return dispatcher
+        dispatcher
             .of(type: .login)
             .map { $0.payload as! (String, String) }
             .flatMap { self.worker.login(userName: $0.0, password: $0.1) }
@@ -41,7 +41,7 @@ class RegisterEpic: Epic {
     }
     
     func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
-        return dispatcher
+        dispatcher
             .of(type: .register)
             .map { $0.payload as! (String, String) }
             .flatMap { self.worker.signup(userName: $0.0, password: $0.1) }

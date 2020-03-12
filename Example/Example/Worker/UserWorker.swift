@@ -21,7 +21,7 @@ class UserWorker {
         let password: String
         
         var parameters: [String : Any]? {
-            return [
+            [
                 "email": userName,
                 "password": password
             ]

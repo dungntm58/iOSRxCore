@@ -13,7 +13,7 @@ class UserDataStore: IdentifiableDataStore {
     let userDefaults: UserDefaults
     
     func make(total: Int, size: Int, previous: UserEntity?, next: UserEntity?) -> PaginationDTO {
-        return AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
+        AppPaginationDTO(total: total, pageSize: size, next: next?.id as Any, previous: previous?.id as Any)
     }
     
     init() {
@@ -45,7 +45,7 @@ class UserDataStore: IdentifiableDataStore {
     }
     
     func getList(options: DataStoreFetchOption) throws -> ListDTO<UserEntity> {
-        return ListDTO(data: [])
+        ListDTO(data: [])
     }
     
     func deleteSync(_ value: UserEntity) throws {
