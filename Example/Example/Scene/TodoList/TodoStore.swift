@@ -48,7 +48,7 @@ enum TodoActionType: String, ListActionType {
 }
 
 extension Payload.List {
-    struct Request: PayloadListRequestable {
+    struct Request: PayloadListRequestable, CustomStringConvertible {
         let page: Int
         let count: Int
         let isAutoRequestCounting: Bool
@@ -60,5 +60,32 @@ extension Payload.List {
             self.isAutoRequestCounting = isAutoRequestCounting
             self.cancelRunning = cancelRunning
         }
+        
+        var description: String {
+            """
+            Request(
+                page: \(page),
+                count: \(count),
+                isAutoRequestCounting: \(isAutoRequestCounting),
+                cancelRunning: \(cancelRunning)
+            )
+            """
+        }
+    }
+}
+
+extension Payload.List.Response: CustomStringConvertible {
+    public var description: String {
+        """
+        Response<\(String(describing: T.self))>(
+            data: [\(data.map(String.init(describing:)).joined(separator: "  \n"))],
+            pagination: \(pagination.map(String.init(describing:)) ?? "nil"),
+            currentPage: \(currentPage),
+            pageSize: \(pageSize),
+            hasNext: \(hasNext),
+            hasPrevious: \(hasPrevious),
+            isLoading: \(isLoading)
+        )
+        """
     }
 }

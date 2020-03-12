@@ -39,3 +39,11 @@ struct TodoEntity: Identifiable, Decodable, Equatable {
         ]
     }
 }
+
+extension TodoEntity: CustomStringConvertible {
+    var description: String {
+        """
+        (id: \(_id), title: \(title), completed: \(completed), createdAt: \(createdAt))
+        """
+    }
+}

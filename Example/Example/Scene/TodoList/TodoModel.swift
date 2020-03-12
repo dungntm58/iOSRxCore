@@ -30,7 +30,7 @@ enum Todo {
         let payload: Any
     }
     
-    struct State: Statable {
+    struct State: Statable, CustomStringConvertible {
         var error: Error?
         let list: Payload.List.Response<TodoEntity>
         let selectedTodoIndex: Int
@@ -48,6 +48,17 @@ enum Todo {
             self.selectedTodoIndex = selectedTodoIndex
             self.error = error
             self.isLogout = isLogout
+        }
+        
+        var description: String {
+            """
+            Todo.State(
+                error: \(error.map(String.init(describing:)) ?? "nil"),
+                list: \(String(describing: list)),
+                selectedTodoIndex: \(selectedTodoIndex),
+                isLogout: \(isLogout)
+            )
+            """
         }
     }
 }
