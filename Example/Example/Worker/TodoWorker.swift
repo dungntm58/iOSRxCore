@@ -8,8 +8,8 @@
 
 import RxSwift
 import SwiftDate
-import RxCoreBase
-import RxCoreList
+import RxCoreRepository
+import RxCoreRedux
 
 class TodoWorker: ListDataWorker {
     let todoRepository: TodoRepository

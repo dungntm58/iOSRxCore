@@ -8,10 +8,10 @@
 
 import RxSwift
 import RxCoreBase
-import RxCoreRequest
+import RxCoreRepository
 import Alamofire
 
-class AuthRequest: DecodableHTTPRequest {
+class AuthRequest: HTTPRequest, Decoding {
     typealias Response = AppHTTPResponse<AuthDto>
     typealias API = AppAPI
     

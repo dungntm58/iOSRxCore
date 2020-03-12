@@ -9,7 +9,7 @@
 import RxCoreRedux
 import RxSwift
 
-class LoginStore: Store<LoginReducer> {
+class LoginStore: Store<LoginReducer.Action, LoginReducer.State> {
     init() {
         super.init(reducer: LoginReducer(), initialState: State())
         inject(

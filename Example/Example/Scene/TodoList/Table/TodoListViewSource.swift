@@ -9,6 +9,7 @@
 import UIKit
 import RxCoreBase
 import RxCoreList
+import RxCoreRedux
 import DifferenceKit
 
 class TodoListViewSource: BaseTableViewSource {
@@ -16,12 +17,9 @@ class TodoListViewSource: BaseTableViewSource {
     
     init(store: TodoStore?) {
         self.store = store
-        let cell = DefaultCellModel(type: .nib(nibName: "TodoTableViewCell", bundle: nil))
+        var cell = CellModelType.nib(nibName: "TodoTableViewCell", bundle: nil).makeCell()
         cell.height = 80
-        let sectionModels: [DefaultSectionModel] = [
-            .init(cells: [ cell ])
-        ]
-        super.init(sections: sectionModels, shouldAnimateLoading: true)
+        super.init(sections: [[cell].makeSection()], shouldAnimateLoading: true)
         
         store?.state
             .filter { $0.error == nil && !$0.isLogout }
@@ -35,7 +33,7 @@ class TodoListViewSource: BaseTableViewSource {
                     return ListViewSourceModel(type: .addNew(at: .end(length: response.data.count)), data: response.data, needsReload: true)
                 }
             }
-            .bind(to: modelRelay)
+            .bind(to: rx.model)
             .disposed(by: disposeBag)
     }
     
@@ -47,24 +45,11 @@ class TodoListViewSource: BaseTableViewSource {
         dataCell.lbTitle.text = item.title
     }
     
-    override func objects(in section: SectionModel, at index: Int, onChanged type: ListModelChangeType) -> [AnyDifferentiable] {
-        if let models = models(forIdentifier: "default") {
-            return models.map { $0.toAnyDifferentiable() }
-        }
-        
-        return super.objects(in: section, at: index, onChanged: type)
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         store?.dispatch(type: .selectTodo, payload: indexPath.row)
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? LoadingAnimatable else {
-            return
-        }
-        cell.startAnimation()
-        
+    override func reachToEnd() {
         let currentPage = store?.currentState.list.currentPage ?? 0
         store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
     }

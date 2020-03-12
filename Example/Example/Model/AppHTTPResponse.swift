@@ -7,7 +7,7 @@
 //
 
 import RxCoreBase
-import RxCoreRequest
+import RxCoreRepository
 
 struct AppPaginationDTO: PaginationDTO, Decodable {
     let total: Int

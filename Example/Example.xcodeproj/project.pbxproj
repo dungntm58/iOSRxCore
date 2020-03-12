@@ -251,6 +251,7 @@
 		E14B188723065DD900F91E91 /* LoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStore.swift; sourceTree = "<group>"; };
 		E14B188923065DE500F91E91 /* LoginReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginReducer.swift; sourceTree = "<group>"; };
 		E14B188F23065E2A00F91E91 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		E178B790238C4CB800ECFC96 /* Example.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Example.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		E1BA69A4231514D200F783C0 /* TodoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewController.swift; sourceTree = "<group>"; };
 		E6B87E56E3672D1B8FBDB34C /* Pods_Abstract_Example_Example_CoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Abstract_Example_Example_CoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -313,6 +314,7 @@
 		13D6083122C31FF80084BBC6 = {
 			isa = PBXGroup;
 			children = (
+				E178B790238C4CB800ECFC96 /* Example.playground */,
 				13D6083C22C31FF80084BBC6 /* Example */,
 				E11888642336A33500CADC67 /* ExampleTests */,
 				E11888722336A57C00CADC67 /* Example_RealmTests */,

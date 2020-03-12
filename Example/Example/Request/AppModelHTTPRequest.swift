@@ -8,7 +8,7 @@
 
 import Alamofire
 import RxSwift
-import RxCoreRequest
+import RxCoreRepository
 import RxCoreBase
 
 extension HTTPRequest {
@@ -19,11 +19,21 @@ extension HTTPRequest {
     }
     
     var environment: RequestEnvironment {
-        #if DEBUG
+        #if !RELEASE && !PRODUCTION
         return AppEnvironment.development
         #else
         return AppEnvironment.production
         #endif
+    }
+    
+    var acceptableStatusCodes: [Int] {
+        return Array(200..<300)
+    }
+}
+
+extension RequestAPI {
+    var acceptableStatusCodes: [Int] {
+        return []
     }
 }
 

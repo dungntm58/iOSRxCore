@@ -7,12 +7,12 @@
 //
 
 import RxCoreList
-import RxCoreRequest
-import RxCoreCoreData
+import RxCoreRepository
+import RxCoreDataStore
 import RxCoreBase
 import CoreData
 
-class TodoEntity: NSObject, Decodable, ManagedObjectBox {
+class TodoEntity: NSObject, Identifiable, Decodable, ManagedObjectBox {
     let core: TodoCoreEntity
     
     var id: String {

@@ -7,7 +7,8 @@
 //
 
 import RxCoreBase
-import RxCoreCoreData
+import RxCoreDataStore
+import RxCoreRepository
 
 class UserDataStore: CoreDataIdentifiableDataStore {
     let configuration: CoreDataConfiguration

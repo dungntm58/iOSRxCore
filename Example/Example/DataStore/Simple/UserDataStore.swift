@@ -41,16 +41,14 @@ class UserDataStore: IdentifiableDataStore {
         throw DataStoreError.unknown
     }
     
-    func eraseSync() throws -> Bool {
-        return true
+    func eraseSync() throws {
     }
     
     func getList(options: DataStoreFetchOption) throws -> ListDTO<UserEntity> {
         return ListDTO(data: [])
     }
     
-    func deleteSync(_ value: UserEntity) throws -> Bool {
+    func deleteSync(_ value: UserEntity) throws {
         userDefaults.set(nil, forKey: value.id)
-        return true
     }
 }

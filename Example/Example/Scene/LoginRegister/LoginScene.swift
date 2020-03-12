@@ -7,7 +7,6 @@
 //
 
 import RxCoreBase
-import RxCoreBaseExtension
 
 class LoginScene: ConnectableViewableScene<LoginStore> {
     convenience init() {

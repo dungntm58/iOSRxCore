@@ -6,8 +6,6 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
-import RxCoreBase
-
 public protocol APNSEventProtocol {
     associatedtype T
 

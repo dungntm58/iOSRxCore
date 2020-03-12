@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import RxCoreBaseExtension
+import RxCoreBase
 
-class TodoListViewController: BaseCleanViewController {
+class TodoListViewController: BaseViewController {
     
     @IBOutlet weak var tableView: TodoTableView!
     
@@ -20,7 +20,6 @@ class TodoListViewController: BaseCleanViewController {
         scene = (tabBarController as? TodoTabBarController)?.scene
         
         // Do any additional setup after loading the view.
-        add(attachedView: tableView)
     }
 
 }

@@ -7,8 +7,8 @@
 //
 
 import RxSwift
+import RxCoreBase
 import RxCoreList
-import RxCoreBaseExtension
 import Toaster
 
 class TodoCollectionView: BaseCollectionView, Appearant {
@@ -24,14 +24,14 @@ class TodoCollectionView: BaseCollectionView, Appearant {
         configure()
     }
     
-    func willAppear() {
-        self.viewSource = TodoList2ViewSource(store: store)
-    }
-    
     func configure() {
     }
     
     var store: TodoStore? {
         return (viewController as? TodoList2ViewController)?.scene?.store
+    }
+    
+    override func initializeViewSource() -> DataViewSource? {
+        return TodoList2ViewSource(store: store)
     }
 }

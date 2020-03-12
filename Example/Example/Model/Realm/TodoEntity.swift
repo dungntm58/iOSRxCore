@@ -8,8 +8,8 @@
 
 import DifferenceKit
 import RealmSwift
-import RxCoreRequest
-import RxCoreRealm
+import RxCoreRepository
+import RxCoreRealmDataStore
 import RxCoreBase
 
 class TodoEntity: ExpirableObject, Identifiable, Decodable {

@@ -8,10 +8,10 @@
 
 import RxSwift
 import RxCoreBase
-import RxCoreRequest
+import RxCoreRepository
 import Alamofire
 
-class TodoSingleRequest: IdentifiableSingleHTTPRequest, DecodableHTTPRequest {
+class TodoSingleRequest: IdentifiableSingleHTTPRequest, Decoding {
     typealias Response = AppHTTPResponse<TodoEntity>
     typealias API = AppAPI
     
@@ -48,7 +48,7 @@ class TodoSingleRequest: IdentifiableSingleHTTPRequest, DecodableHTTPRequest {
     #endif
 }
 
-class TodoListRequest: ListModelHTTPRequest, DecodableHTTPRequest {
+class TodoListRequest: ListModelHTTPRequest, Decoding {
     typealias Response = AppHTTPResponse<TodoEntity>
     typealias API = AppAPI
     

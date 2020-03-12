@@ -9,7 +9,7 @@
 import RxCoreRedux
 import RxCoreList
 
-class TodoStore: Store<TodoReducer> {
+class TodoStore: Store<TodoReducer.Action, TodoReducer.State> {
     init() {
         super.init(reducer: TodoReducer(), initialState: Todo.State())
         inject(

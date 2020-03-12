@@ -8,7 +8,7 @@
 
 import RxSwift
 import RxCoreList
-import RxCoreBaseExtension
+import RxCoreBase
 
 class TodoTableView: BaseTableView, Appearant {
     required init?(coder aDecoder: NSCoder) {
@@ -21,14 +21,14 @@ class TodoTableView: BaseTableView, Appearant {
         configure()
     }
     
-    func willAppear() {
-        self.viewSource = TodoListViewSource(store: store)
-    }
-    
     func configure() {
     }
     
     var store: TodoStore? {
         return (viewController as? TodoListViewController)?.scene?.store
+    }
+    
+    override func initializeViewSource() -> BaseTableView.DataViewSource? {
+        return TodoListViewSource(store: store)
     }
 }

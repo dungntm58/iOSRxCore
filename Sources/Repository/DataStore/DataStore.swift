@@ -7,7 +7,6 @@
 //
 
 import RxSwift
-import RxCoreBase
 
 public protocol DataStore {
     associatedtype T
@@ -18,27 +17,25 @@ public protocol DataStore {
     func saveSync(_ value: T) throws -> T
     @discardableResult
     func saveSync(_ values: [T]) throws -> [T]
-    @discardableResult
-    func deleteSync(_ value: T) throws -> Bool
-    @discardableResult
-    func eraseSync() throws -> Bool
+    func deleteSync(_ value: T) throws
+    func eraseSync() throws
     func getList(options: DataStoreFetchOption) throws -> ListDTO<T>
 
     func make(total: Int, size: Int, previous: T?, next: T?) -> PaginationDTO
 
     func saveAsync(_ value: T) -> Observable<T>
     func saveAsync(_ values: [T]) -> Observable<[T]>
-    func deleteAsync(_ value: T) -> Observable<Bool>
-    func eraseAsync() -> Observable<Bool>
+    func deleteAsync(_ value: T) -> Observable<Void>
+    func eraseAsync() -> Observable<Void>
     func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>>
 }
 
 public protocol IdentifiableDataStore: DataStore where T: Identifiable {
     func getSync(_ id: T.IDType, options: DataStoreFetchOption?) throws -> T
-    func deleteSync(_ id: T.IDType, options: DataStoreFetchOption?) throws -> Bool
+    func deleteSync(_ id: T.IDType, options: DataStoreFetchOption?) throws
 
     func getAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<T>
-    func deleteAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<Bool>
+    func deleteAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<Void>
 
     func lastID() throws -> T.IDType
 }

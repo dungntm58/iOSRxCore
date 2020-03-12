@@ -7,11 +7,11 @@
 //
 
 import RxCoreBase
-import RxCoreRequest
-import RxCoreCoreData
+import RxCoreRepository
+import RxCoreDataStore
 import CoreData
 
-class UserEntity: Decodable, ManagedObjectBox {
+class UserEntity: Identifiable, Decodable, ManagedObjectBox {
     let core: UserCoreEntity
     
     var id: String {

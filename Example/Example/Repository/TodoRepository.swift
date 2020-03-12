@@ -7,7 +7,6 @@
 //
 
 import RxCoreRepository
-import RxCoreRemoteRepository
 
 class TodoRepository: RemoteLocalIdentifiableSingleRepository, RemoteLocalListRepository {
     typealias T = TodoEntity

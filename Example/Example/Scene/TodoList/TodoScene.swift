@@ -7,7 +7,6 @@
 //
 
 import RxCoreBase
-import RxCoreBaseExtension
 import RxCoreRedux
 
 class TodoScene: ConnectableViewableScene<TodoStore>, Dispatchable {

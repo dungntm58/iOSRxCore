@@ -9,7 +9,8 @@
 import UIKit
 import RxCoreBase
 import RxCoreList
-import RxCoreRequest
+import RxCoreRedux
+import RxCoreRepository
 import DifferenceKit
 
 class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlowLayout {
@@ -17,11 +18,8 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
     
     init(store: TodoStore?) {
         self.store = store
-        let cell = DefaultCellModel(type: .nib(nibName: "TodoCollectionViewCell", bundle: nil))
-        let sectionModels: [DefaultSectionModel] = [
-            .init(cells: [ cell ])
-        ]
-        super.init(sections: sectionModels, shouldAnimateLoading: true)
+        let cell = CellModelType.nib(nibName: "TodoCollectionViewCell", bundle: nil).makeCell()
+        super.init(sections: [[cell].makeSection()], shouldAnimateLoading: true)
         
         store?.state
             .filter { $0.error == nil && !$0.isLogout }
@@ -35,7 +33,7 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
                     return ListViewSourceModel(type: .addNew(at: .end(length: response.data.count)), data: response.data, needsReload: true)
                 }
             }
-            .bind(to: modelRelay)
+            .bind(to: rx.model)
             .disposed(by: disposeBag)
     }
     
@@ -47,14 +45,6 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
         dataCell.lbTitle.text = item.title
     }
     
-    override func objects(in section: SectionModel, at index: Int, onChanged type: ListModelChangeType) -> [AnyDifferentiable] {
-        if let models = models(forIdentifier: "default") {
-            return models.map { $0.toAnyDifferentiable() }
-        }
-        
-        return super.objects(in: section, at: index, onChanged: type)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 60)
     }
@@ -63,12 +53,7 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
         store?.dispatch(type: .selectTodo, payload: indexPath.row)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? LoadingAnimatable else {
-            return
-        }
-        cell.startAnimation()
-        
+    override func reachToEnd() {
         let currentPage = store?.currentState.list.currentPage ?? 0
         store?.dispatch(type: .load, payload: Payload.List.Request(page: currentPage + 1, cancelRunning: false))
     }

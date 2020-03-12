@@ -1,6 +1,6 @@
 //
 //  Scene.swift
-//  CoreBase
+//  RxCoreBase
 //
 //  Created by Robert on 8/10/19.
 //
@@ -9,7 +9,7 @@ open class Scene: Scenable {
     public let managedContext: ManagedSceneContext
 
     public init() {
-        self.managedContext = ManagedSceneContext()
+        self.managedContext = .init()
     }
 
     public init(managedContext: ManagedSceneContext) {
@@ -29,7 +29,7 @@ open class Scene: Scenable {
     }
 
     open func forwardDataWhenDetach() -> Any {
-        return Optional<Any>.none as Any // Nil of any
+        Optional<Any>.none as Any // Nil of any
     }
 
     public func `switch`(to scene: Scenable) {
@@ -43,7 +43,7 @@ open class Scene: Scenable {
 
     public func attach(child scene: Scenable) {
         if children.contains(where: { scene as AnyObject === $0 as AnyObject }) {
-            #if DEBUG
+            #if !RELEASE && !PRODUCTION
             Swift.print("This scene has been already attached")
             #endif
             if let retrieve = scene.retrieve {
@@ -95,8 +95,8 @@ open class Scene: Scenable {
     }
 
     public func detach() {
-        #if DEBUG
-        print("Detach scene", type(of: self))
+        #if !RELEASE && !PRODUCTION
+        Swift.print("Detach scene", type(of: self))
         printSceneHierachyDebug()
         #endif
         if previous == nil {
@@ -139,16 +139,16 @@ open class Scene: Scenable {
         scene.updateLifeCycle(.didBecomeActive)
     }
 
-    #if DEBUG
+    #if !RELEASE && !PRODUCTION
     public func printSceneHierachyDebug() {
-        print("------- Scene hierachy -------")
+        Swift.print("------- Scene hierachy -------")
         guard var currentScene = previous ?? parent else { return }
-        print("Scene", type(of: self), "\n    - Parent:", parent == nil ? "nil" : "\(type(of: parent as! Scene as Any))", "\n    - Previous:", previous == nil ? "nil" : "\(type(of: previous as! Scene as Any))")
+        Swift.print("Scene", type(of: self), "\n    - Parent:", parent == nil ? "nil" : "\(type(of: parent as! Scene as Any))", "\n    - Previous:", previous == nil ? "nil" : "\(type(of: previous as! Scene as Any))")
         while let scene = currentScene.previous ?? currentScene.parent {
-            print("Scene", type(of: currentScene), "\n    - Parent:", currentScene.parent == nil ? "nil" : "\(type(of: currentScene.parent as! Scene as Any))", "\n    - Previous:", currentScene.previous == nil ? "nil" : "\(type(of: currentScene.previous as! Scene as Any))")
+            Swift.print("Scene", type(of: currentScene), "\n    - Parent:", currentScene.parent == nil ? "nil" : "\(type(of: currentScene.parent as! Scene as Any))", "\n    - Previous:", currentScene.previous == nil ? "nil" : "\(type(of: currentScene.previous as! Scene as Any))")
             currentScene = scene
         }
-        print("-----------------------------")
+        Swift.print("-----------------------------")
     }
     #endif
 }

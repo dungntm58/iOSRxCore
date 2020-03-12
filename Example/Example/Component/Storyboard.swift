@@ -8,7 +8,6 @@
 
 import UIKit
 import RxCoreBase
-import RxCoreBaseExtension
 
 enum AppStoryboard: String, Storyboard {
     case main = "Main"
@@ -19,11 +18,5 @@ enum AppStoryboard: String, Storyboard {
     
     var bundle: Bundle? {
         return nil
-    }
-}
-
-extension Dictionary: RequestOption where Key == String {
-    public var parameters: [String : Any]? {
-        return self
     }
 }

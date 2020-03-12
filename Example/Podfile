@@ -2,11 +2,10 @@ use_frameworks!
 
 abstract_target 'Abstract_Example' do
   pod 'RxCoreRedux', :path => '../'
+  pod 'RxCoreRedux/List', :path => '../'
   pod 'RxCoreBase', :path => '../'
-  pod 'RxCoreBaseExtension', :path => '../'
+  pod 'RxCoreBase/ReduxExtension', :path => '../'
   pod 'RxCoreList', :path => '../'
-  pod 'RxCoreRequest', :path => '../'
-  pod 'RxCoreRemoteRepository', :path => '../'
   pod 'RxCoreRepository', :path => '../'
   pod 'RxCoreAPNS', :path => '../'
   pod 'RxCocoa'
@@ -18,10 +17,23 @@ abstract_target 'Abstract_Example' do
   end
 
   target 'Example_Realm' do
-    pod 'RxCoreRealm', :path => '../'
+    pod 'RxCoreRealmDataStore', :path => '../'
   end
   
   target 'Example_CoreData' do
-    pod 'RxCoreCoreData', :path => '../'
+    pod 'RxCoreDataStore', :path => '../'
   end
+end
+
+post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings.delete('CODE_SIGNING_ALLOWED')
+        config.build_settings.delete('CODE_SIGNING_REQUIRED')
+    end
+
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['CONFIGURATION_BUILD_DIR'] = '$PODS_CONFIGURATION_BUILD_DIR'
+        end
+    end
 end

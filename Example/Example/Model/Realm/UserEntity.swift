@@ -7,8 +7,8 @@
 //
 
 import RxCoreBase
-import RxCoreRequest
-import RxCoreRealm
+import RxCoreRepository
+import RxCoreRealmDataStore
 import RealmSwift
 
 class UserEntity: Object, Identifiable, Decodable {

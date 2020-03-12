@@ -7,7 +7,7 @@
 //
 
 import DifferenceKit
-import RxCoreRequest
+import RxCoreRepository
 import RxCoreBase
 
 struct TodoEntity: Identifiable, Decodable, Equatable {

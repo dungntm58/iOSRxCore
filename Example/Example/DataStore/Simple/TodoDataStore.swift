@@ -47,19 +47,17 @@ class TodoDataStore: IdentifiableDataStore {
         return values
     }
     
-    func eraseSync() throws -> Bool {
+    func eraseSync() throws {
         array.removeAll()
-        return true
     }
     
     func getList(options: DataStoreFetchOption) throws -> ListDTO<TodoEntity> {
         return ListDTO(data: array)
     }
     
-    func deleteSync(_ value: TodoEntity) throws -> Bool {
+    func deleteSync(_ value: TodoEntity) throws {
         if let index = array.firstIndex(where: { $0.id == value.id }) {
             array.remove(at: index)
         }
-        return true
     }
 }

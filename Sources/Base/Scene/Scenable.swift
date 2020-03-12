@@ -1,6 +1,6 @@
 //
 //  Scenario.swift
-//  CoreBase
+//  RxCoreBase
 //
 //  Created by Robert Nguyen on 5/15/19.
 //
@@ -71,13 +71,13 @@ open class ManagedSceneContext {
 
     public init(children: [Scenable] = []) {
         self.children = children
-        self.lifeCycle = BehaviorSubject<LifeCycle>(value: .inital)
-        self.disposables = CompositeDisposable()
+        self.lifeCycle = .init(value: .inital)
+        self.disposables = .init()
         self.isPerformed = false
     }
 
     @discardableResult
     public func insertDisposable(_ disposable: Disposable) -> CompositeDisposable.DisposeKey? {
-        return disposables.insert(disposable)
+        disposables.insert(disposable)
     }
 }

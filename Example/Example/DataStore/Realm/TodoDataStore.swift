@@ -7,8 +7,9 @@
 //
 
 import RealmSwift
-import RxCoreRealm
+import RxCoreRealmDataStore
 import RxCoreBase
+import RxCoreRepository
 
 class TodoDataStore: RealmIdentifiableDataStore {
     let realm: Realm

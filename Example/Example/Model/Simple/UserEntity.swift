@@ -7,7 +7,7 @@
 //
 
 import RxCoreBase
-import RxCoreRequest
+import RxCoreRepository
 
 struct UserEntity: Identifiable, Codable, Equatable {
     typealias IDType = String

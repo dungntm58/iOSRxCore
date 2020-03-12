@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import RxCoreBaseExtension
 import RxSwift
+import RxCoreBase
 
-class LoginViewController: BaseCleanViewController, ConnectedSceneBindableRef {
+class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
     
     @IBOutlet weak var lbUsername: UITextField!
     @IBOutlet weak var lbPassword: UITextField!

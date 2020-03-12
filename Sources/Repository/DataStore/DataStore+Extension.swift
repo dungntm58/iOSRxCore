@@ -6,19 +6,16 @@
 //
 
 import RxSwift
-import RxCoreBase
 
 public extension DataStore {
-    var ttl: TimeInterval {
-        return 0
-    }
+    var ttl: TimeInterval { 0 }
 
     func saveAsync(_ value: T) -> Observable<T> {
-        return .create {
+        .create {
             subscribe in
             do {
                 try self.saveSync(value)
-                #if DEBUG
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Save \(value) of type \(T.self) successfully!!!")
                 #endif
                 subscribe.onNext(value)
@@ -31,11 +28,11 @@ public extension DataStore {
     }
 
     func saveAsync(_ values: [T]) -> Observable<[T]> {
-        return .create {
+        .create {
             subscribe in
             do {
                 try self.saveSync(values)
-                #if DEBUG
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Save \(values.count) items of type \(T.self) successfully!!!")
                 #endif
                 subscribe.onNext(values)
@@ -47,15 +44,15 @@ public extension DataStore {
         }
     }
 
-    func deleteAsync(_ value: T) -> Observable<Bool> {
-        return .create {
+    func deleteAsync(_ value: T) -> Observable<Void> {
+        .create {
             subscribe in
             do {
-                let r = try self.deleteSync(value)
-                #if DEBUG
+                try self.deleteSync(value)
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Delete \(value) of type \(T.self) successfully!!!")
                 #endif
-                subscribe.onNext(r)
+                subscribe.onNext(())
                 subscribe.onCompleted()
             } catch {
                 subscribe.onError(error)
@@ -65,11 +62,11 @@ public extension DataStore {
     }
 
     func getListAsync(options: DataStoreFetchOption) -> Observable<ListDTO<T>> {
-        return .create {
+        .create {
             subscribe in
             do {
                 let results = try self.getList(options: options)
-                #if DEBUG
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Get \(results.data.count) items of type \(T.self) from cache successfully!!!")
                 #endif
                 subscribe.onNext(results)
@@ -81,15 +78,15 @@ public extension DataStore {
         }
     }
 
-    func eraseAsync() -> Observable<Bool> {
-        return .create {
+    func eraseAsync() -> Observable<Void> {
+        .create {
             subscribe in
             do {
-                let r = try self.eraseSync()
-                #if DEBUG
+                try self.eraseSync()
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Erase all items of type \(T.self) successfully!!!")
                 #endif
-                subscribe.onNext(r)
+                subscribe.onNext(())
                 subscribe.onCompleted()
             } catch {
                 subscribe.onError(error)
@@ -100,19 +97,19 @@ public extension DataStore {
 }
 
 public extension IdentifiableDataStore {
-    func deleteSync(_ id: T.IDType, options: DataStoreFetchOption?) throws -> Bool {
+    func deleteSync(_ id: T.IDType, options: DataStoreFetchOption?) throws {
         guard let value = try? getSync(id, options: options) else {
-            return false
+            return
         }
-        return try deleteSync(value)
+        try deleteSync(value)
     }
 
     func getAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<T> {
-        return .create {
+        .create {
             subscribe in
             do {
                 let value = try self.getSync(id, options: options)
-                #if DEBUG
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Get \(value) of type \(T.self) with id \(id) successfully!!!")
                 #endif
                 subscribe.onNext(value)
@@ -124,15 +121,15 @@ public extension IdentifiableDataStore {
         }
     }
 
-    func deleteAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<Bool> {
-        return .create {
+    func deleteAsync(_ id: T.IDType, options: DataStoreFetchOption?) -> Observable<Void> {
+        .create {
             subscribe in
             do {
-                let r = try self.deleteSync(id, options: options)
-                #if DEBUG
+                try self.deleteSync(id, options: options)
+                #if !RELEASE && !PRODUCTION
                 Swift.print("Delete item of type \(T.self) with id \(id) successfully!!!")
                 #endif
-                subscribe.onNext(r)
+                subscribe.onNext(())
                 subscribe.onCompleted()
             } catch {
                 subscribe.onError(error)

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Robert Nguyễn. All rights reserved.
 //
 
-import RxCoreRequest
+import RxCoreRepository
 import RxCoreBase
 
 struct AuthDto: Decodable {

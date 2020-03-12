@@ -17,7 +17,7 @@ open class APNSWorker<ValueType> where ValueType: APNSEventProtocol {
     }
 
     public var sharedObservable: Observable<ValueType> {
-        return _subscriber.asObservable()
+        _subscriber.asObservable()
     }
 
     public func subscribe(_ data: ValueType) {

@@ -30,8 +30,42 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.ios.deployment_target = '9.0'
   s.module_name = 'RxCoreRepository'
-  s.swift_version = "5.0"
+  s.swift_version = "5.1"
+  s.framework = "Foundation"
 
-  s.source_files = 'Sources/Repository/**/*'
-  s.dependency 'RxCoreBase'
+  s.default_subspecs = 'Basics', 'DataStore', 'Request', 'Remote', 'Local', 'RemoteLocal'
+  
+  s.subspec 'Basics' do |ss|
+    ss.source_files = 'Sources/Repository/Basics/**/*'
+    ss.dependency 'RxSwift'
+  end
+
+  s.subspec 'DataStore' do |ss|
+    ss.source_files = 'Sources/Repository/DataStore/**/*'
+    ss.dependency 'RxCoreRepository/Basics'
+  end
+
+  s.subspec 'Request' do |ss|
+    ss.source_files = 'Sources/Repository/Request/**/*'
+    ss.dependency 'Alamofire'
+    ss.dependency 'RxCoreRepository/Basics'
+  end
+
+  s.subspec 'Remote' do |ss|
+    ss.source_files = 'Sources/Repository/Remote/**/*'
+    ss.dependency 'RxCoreRepository/Basics'
+    ss.dependency 'RxCoreRepository/Request'
+  end
+
+  s.subspec 'Local' do |ss|
+    ss.source_files = 'Sources/Repository/Local/**/*'
+    ss.dependency 'RxCoreRepository/Basics'
+    ss.dependency 'RxCoreRepository/DataStore'
+  end
+
+  s.subspec 'RemoteLocal' do |ss|
+    ss.source_files = 'Sources/Repository/RemoteLocal/**/*'
+    ss.dependency 'RxCoreRepository/Remote'
+    ss.dependency 'RxCoreRepository/Local'
+  end
 end

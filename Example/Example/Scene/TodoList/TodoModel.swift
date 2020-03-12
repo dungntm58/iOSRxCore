@@ -7,7 +7,7 @@
 //
 
 import Alamofire
-import RxCoreBase
+import RxCoreRepository
 import RxCoreList
 import RxCoreRedux
 import DifferenceKit

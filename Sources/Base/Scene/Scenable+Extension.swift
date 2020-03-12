@@ -1,51 +1,51 @@
 //
 //  Scenable+Extension.swift
-//  CoreBase
+//  RxCoreBase
 //
 //  Created by Robert on 8/10/19.
 //
 
 import RxSwift
 
-// Shortcut
+// MARK: - Shortcut
 public extension Scenable {
     internal(set) var previous: Scenable? {
         set { managedContext.previous = newValue }
-        get { return managedContext.previous }
+        get { managedContext.previous }
     }
 
     internal(set) var children: [Scenable] {
         set { managedContext.children = newValue }
-        get { return managedContext.children }
+        get { managedContext.children }
     }
 
     internal(set) var parent: Scenable? {
         set { managedContext.parent = newValue }
-        get { return managedContext.parent }
+        get { managedContext.parent }
     }
 
     internal(set) var isPerformed: Bool {
         set { managedContext.isPerformed = newValue }
-        get { return managedContext.isPerformed }
+        get { managedContext.isPerformed }
     }
 
     /// The nearest child scene that has been performed
     internal(set) var current: Scenable? {
         set { managedContext.current = newValue }
-        get { return managedContext.current }
+        get { managedContext.current }
     }
 }
 
-// Convenience
+// MARK: - Convenience
 public extension Scenable {
     /// Return an observable instance that observe life cycle of this scene.
     var lifeCycle: Observable<LifeCycle> {
-        return managedContext.lifeCycle.asObservable()
+        managedContext.lifeCycle.asObservable()
     }
 
     /// Return the current value of life cycle
     func getLifeCycleState() throws -> LifeCycle {
-        return try managedContext.lifeCycle.value()
+        try managedContext.lifeCycle.value()
     }
 
     /// The most leaf child scene that has been performed
@@ -74,6 +74,20 @@ public extension Scenable {
             currentScene = scene
         }
         return currentScene
+    }
+
+    var nearestViewable: Viewable? {
+        guard var currentScene = previous ?? parent else { return nil }
+        if let viewable = currentScene as? Viewable {
+            return viewable
+        }
+        while let scene = currentScene.previous ?? currentScene.parent {
+            if let viewable = currentScene as? Viewable {
+                return viewable
+            }
+            currentScene = scene
+        }
+        return nil
     }
 }
 

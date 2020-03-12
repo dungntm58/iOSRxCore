@@ -6,7 +6,7 @@
 //  Copyright © 2019 CocoaPods. All rights reserved.
 //
 
-import RxCoreBase
+import RxCoreRepository
 import RxCoreRedux
 import RxCoreList
 import RxSwift
@@ -33,7 +33,7 @@ extension Payload.List.Request: PaginationRequestOptions {
     }
     
     var storeFetchOptions: DataStoreFetchOption {
-        return .page(page, size: count, predicate: nil, sorting: .desc(property: "createdAt"), validate: true)
+        return .page(page, size: count, predicate: nil, sorting: [.desc(property: "createdAt")], validate: true)
     }
 }
 
