@@ -9,7 +9,15 @@
 open class BaseTableView: UITableView {
     public typealias DataViewSource = StrictListViewSource & BindableTableViewDataSource
 
-    private(set) public lazy var viewSource: DataViewSource? = _initViewSource()
+    private lazy var _viewSource: DataViewSource? = _initViewSource()
+
+    public var viewSource: DataViewSource? {
+        set {
+            _viewSource = newValue
+            _viewSource?.register(in: self)
+        }
+        get { _viewSource }
+    }
 
     private func _initViewSource() -> DataViewSource? {
         let viewSource = initializeViewSource()
