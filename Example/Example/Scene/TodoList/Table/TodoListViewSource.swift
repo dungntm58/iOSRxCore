@@ -34,9 +34,10 @@ class TodoListViewSource: BaseTableViewSource {
             .disposed(by: disposeBag)
             
         response?
+            .filter { !$0.isLoading }
             .map {
                 response in
-                if response.currentPage == 0 {
+                if response.currentPage <= 1 {
                     return ListViewSourceModel(type: .initial, data: response.data, needsReload: true)
                 } else {
                     return ListViewSourceModel(type: .addNew(at: .end(length: response.data.count)), data: response.data, needsReload: true)

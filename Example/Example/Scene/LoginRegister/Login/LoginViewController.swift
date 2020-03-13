@@ -24,7 +24,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
         
         scene?.store.state
             .compactMap { $0.user }
-            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
@@ -33,7 +33,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
         
         scene?.store.state
             .compactMap { $0.error }
-            .subscribeOn(MainScheduler.asyncInstance)
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] error in
                 self?.onError(error)
