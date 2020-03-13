@@ -12,7 +12,7 @@ import RxSwift
 public extension PureHTTPRequest {
     var defaultParams: Parameters? { nil }
 
-    var sessionManager: SessionManager { SessionManager.default }
+    var sessionManager: SessionManager { .default }
 }
 
 // MARK: - Convenience
@@ -246,3 +246,31 @@ private func printDebug(data: Data) {
     }
 }
 #endif
+
+public extension PureHTTPRequest where Self: HTTPResponseTransformable {
+    /// Common HTTP request
+    /// Return an observable of HTTPResponse to keep data stable
+    func execute(api: API, options: RequestOption?) -> Observable<Response>{
+        pureExecute(api: api, options: options).map(transform)
+    }
+
+    /// Upload request
+    /// Return an observable of HTTPResponse to keep data stable
+    func upload(api: API, options: UploadRequestOption) -> Observable<Response> {
+        pureUpload(api: api, options: options).map(transform)
+    }
+}
+
+public extension PureHTTPRequest where API: HTTPResponseTransformable {
+    /// Common HTTP request
+    /// Return an observable of HTTPResponse to keep data stable
+    func execute(api: API, options: RequestOption?) -> Observable<API.Response>{
+        pureExecute(api: api, options: options).map(api.transform)
+    }
+
+    /// Upload request
+    /// Return an observable of HTTPResponse to keep data stable
+    func upload(api: API, options: UploadRequestOption) -> Observable<API.Response> {
+        pureUpload(api: api, options: options).map(api.transform)
+    }
+}

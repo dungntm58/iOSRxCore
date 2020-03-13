@@ -20,3 +20,11 @@ public protocol RequestAPI {
 
     var acceptableStatusCodes: [Int] { get }
 }
+
+public extension RequestAPI {
+    var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
+    var cacheTimeoutInterval: TimeInterval { 0 }
+    var extraParams: Parameters? { nil }
+    var extraHeaders: HTTPHeaders? { nil }
+    var encoding: ParameterEncoding { URLEncoding.default }
+}
