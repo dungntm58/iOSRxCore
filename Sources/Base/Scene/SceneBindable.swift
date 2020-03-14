@@ -10,15 +10,15 @@ public protocol SceneBindable {
 }
 
 public protocol SceneRef: class {
-    associatedtype S: Scenable
+    associatedtype Scene: Scenable
 
-    var scene: S? { set get }
+    var scene: Scene? { set get }
 }
 
 public protocol SceneBindableRef: SceneBindable, SceneRef {}
 
 public extension SceneBindable where Self: SceneRef {
     func bind(to scene: Scenable) {
-        self.scene = scene as? S
+        self.scene = scene as? Scene
     }
 }
