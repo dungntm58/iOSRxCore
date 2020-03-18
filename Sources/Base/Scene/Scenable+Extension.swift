@@ -42,11 +42,8 @@ public extension Scenable {
             scene.perform()
             current = scene
             scene.updateLifeCycle(.didBecomeActive)
-            _ = managedContext.disposables.insert(
-                lifeCycle.subscribe(onNext: {
-                    value in
-                    scene.managedContext.lifeCycle.onNext(value)
-                })
+            managedContext.insertDisposable(
+                lifeCycle.subscribe(onNext: scene.managedContext.lifeCycle.onNext)
             )
         }
     }
@@ -62,11 +59,8 @@ public extension Scenable {
         children.forEach {
             scene in
             scene.parent = self
-            _ = managedContext.disposables.insert(
-                lifeCycle.subscribe(onNext: {
-                    value in
-                    scene.managedContext.lifeCycle.onNext(value)
-                })
+            managedContext.insertDisposable(
+                lifeCycle.subscribe(onNext: scene.managedContext.lifeCycle.onNext)
             )
         }
         current = scene
@@ -93,16 +87,13 @@ public extension Scenable {
             parent.children.remove(at: selfIndex)
         }
         parent?.current = nil
-        if let retrieve = previousScene?.retrieve {
-            previousScene?.updateLifeCycle(.willBecomeActive)
-            retrieve(forwardDataWhenDetach())
-            previousScene?.updateLifeCycle(.didBecomeActive)
+        if let previousScene = previousScene {
+            previousScene.updateLifeCycle(.willBecomeActive)
+            previousScene.retrieve?(forwardDataWhenDetach())
+            previousScene.updateLifeCycle(.didBecomeActive)
         }
         onDetach()
         updateLifeCycle(.didDetach)
-
-        managedContext.disposables.dispose()
-        managedContext.lifeCycle.onCompleted()
     }
 
     func performChild(at index: Int) {

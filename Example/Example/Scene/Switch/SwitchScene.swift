@@ -8,7 +8,7 @@
 
 import RxCoreBase
 
-class SwitchScene: ViewableScene, Lauchable {
+class SwitchScene: ViewableScene, Launchable {
     lazy var window = UIWindow(frame: UIScreen.main.bounds)
     
     init() {

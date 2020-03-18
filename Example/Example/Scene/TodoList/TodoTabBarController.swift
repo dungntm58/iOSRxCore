@@ -42,6 +42,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .filter { $0.error == nil }
             .map { $0.isLogout }
             .filter { $0 }
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
                 self?.scene?.detach()
@@ -53,6 +54,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
             .filter { $0.error == nil && !$0.isLogout }
             .map { $0.selectedTodoIndex }
             .filter { $0 >= 0 }
+            .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
                 self?.scene?.showTodoDetail()

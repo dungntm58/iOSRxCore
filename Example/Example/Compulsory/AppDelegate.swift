@@ -15,7 +15,7 @@ import RxCoreAPNS
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private lazy var launcher: Lauchable = SwitchScene()
+    private lazy var launcher: Launchable = SwitchScene()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
