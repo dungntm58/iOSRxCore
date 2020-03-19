@@ -6,8 +6,6 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
-import RxSwift
-
 public protocol RemoteListRepository: ListModelRepository  where ListRequest.Response.ValueType == T {
     associatedtype ListRequest: ListModelHTTPRequest
 

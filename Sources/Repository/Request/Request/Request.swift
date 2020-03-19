@@ -6,7 +6,6 @@
 //  Copyright © 2016 Robert Nguyen. All rights reserved.
 //
 
-import RxSwift
 import Alamofire
 
 /**

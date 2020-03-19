@@ -9,7 +9,7 @@ import RxSwift
 import RxCoreRedux
 
 public protocol ConnectedSceneRef: SceneRef where Scene: Connectable {}
-public protocol ConnectedSceneBindableRef: SceneBindableRef, ConnectedSceneRef, Activating {}
+public protocol ConnectedSceneBindableRef: SceneBindableRef, ConnectedSceneRef {}
 
 public extension Activating where Self: ConnectedSceneRef {
     func activate() {

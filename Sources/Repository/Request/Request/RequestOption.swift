@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import RxSwift
 
 public protocol ProgressTrackable {
     var queue: DispatchQueue { get }

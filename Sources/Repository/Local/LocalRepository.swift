@@ -6,8 +6,6 @@
 //  Copyright © 2017 Robert Nguyen. All rights reserved.
 //
 
-import RxSwift
-
 public protocol LocalRepository: ModelRepository where T == DS.T {
     associatedtype DS: DataStore
 
