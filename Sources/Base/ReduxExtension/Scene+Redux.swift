@@ -5,7 +5,6 @@
 //  Created by Dung Nguyen on 2/28/20.
 //
 
-import RxSwift
 import RxCoreRedux
 
 public protocol ConnectedSceneRef: SceneRef where Scene: Connectable {}
