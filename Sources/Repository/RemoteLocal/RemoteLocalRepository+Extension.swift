@@ -66,7 +66,7 @@ public extension RemoteLocalSingleRepository {
     func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
         let cacheObservable = store.deleteAsync(value)
         let remote = singleRequest.delete(value, options: options?.requestOptions)
-        return .zip(remote, cacheObservable) { _,_ in () }
+        return .zip(remote, cacheObservable) { _,_ in }
     }
 }
 
@@ -95,7 +95,7 @@ public extension RemoteLocalIdentifiableSingleRepository {
     func delete(id: T.IDType, options: FetchOptions?) -> Observable<Void> {
         let cacheObservable = store.deleteAsync(id, options: options?.storeFetchOptions)
         let remote = singleRequest.delete(id: id, options: options?.requestOptions)
-        return .zip(remote, cacheObservable) { _, _ in () }
+        return .zip(remote, cacheObservable) { _, _ in }
     }
 }
 
@@ -104,7 +104,6 @@ public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
         if list.data.filter({ !$0.isValid }).isEmpty {
             return .from(optional: list)
         }
-        let pagination = list.pagination
         let singleObservables = list.data.map {
             item -> Observable<T> in
             if item.isValid {
@@ -113,9 +112,18 @@ public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
                 return self.get(id: item.id, options: optionsGenerator(item.id))
             }
         }
-        return Observable.concat(singleObservables)
-            .toArray()
-            .map { ListDTO<T>(data: $0, pagination: pagination) }
-            .asObservable()
+        return .zip(
+            Observable.just(list.pagination),
+            Observable.deferred { .just(list.data.map { $0.id }) },
+            Observable.merge(singleObservables)
+                .toArray()
+                .asObservable()
+        ) {
+            pagination, ids, arr in
+            ListDTO<T>(
+                data: ids.compactMap { id in arr.first(where: { $0.id == id }) },
+                pagination: pagination
+            )
+        }
     }
 }

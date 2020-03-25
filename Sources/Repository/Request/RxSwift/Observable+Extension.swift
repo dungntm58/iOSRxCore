@@ -9,7 +9,11 @@
 import RxSwift
 
 public extension Observable {
-    static func first(_ source1: Observable, _ source2: Observable) -> Observable {
+    @inlinable static func first(_ source1: Observable, _ source2: Observable) -> Observable {
         source1.catchError { _ in source2 }
+    }
+
+    @inlinable func mapToVoid() -> Observable<Void> {
+        map { _ in }
     }
 }
