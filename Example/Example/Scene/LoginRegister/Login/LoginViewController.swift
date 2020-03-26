@@ -23,7 +23,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
         super.viewDidLoad()
         
         scene?.store.state
-            .compactMap { $0.user }
+            .compactMap(\.user)
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
@@ -32,7 +32,7 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
             .disposed(by: disposeBag)
         
         scene?.store.state
-            .compactMap { $0.error }
+            .compactMap(\.error)
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] error in

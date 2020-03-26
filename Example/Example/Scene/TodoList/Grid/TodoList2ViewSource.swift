@@ -23,12 +23,12 @@ class TodoList2ViewSource: BaseCollectionViewSource, UICollectionViewDelegateFlo
         
         let response = store?.state
             .filter { $0.error == nil && !$0.isLogout }
-            .map { $0.list }
+            .map(\.list)
             .distinctUntilChanged()
             .share()
         
         response?
-            .map { $0.hasNext }
+            .map(\.hasNext)
             .distinctUntilChanged()
             .bind(to: rx.isAnimating)
             .disposed(by: disposeBag)

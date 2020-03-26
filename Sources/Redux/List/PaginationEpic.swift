@@ -53,7 +53,7 @@ open class BaseListEpic<Action, State, Worker>: Epic where
                 actionStream
                     .of(type: .load)
                     .compactMap { $0.payload as? PayloadListRequestable }
-                    .filter { $0.cancelRunning }
+                    .filter(\.cancelRunning)
             )
             .map { $0.toAction() }
             .catchError { .just($0.toAction()) }

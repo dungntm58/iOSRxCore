@@ -52,14 +52,14 @@ public extension RemoteLocalSingleRepository {
     func create(_ value: T, options: FetchOptions?) -> Observable<T> {
         singleRequest
             .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .map(store.saveSync)
     }
 
     func update(_ value: T, options: FetchOptions?) -> Observable<T> {
         singleRequest
             .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
             .map(store.saveSync)
     }
 
@@ -74,7 +74,7 @@ public extension RemoteLocalIdentifiableSingleRepository {
     func get(id: T.IDType, options: FetchOptions?) -> Observable<T> {
         let remote = singleRequest
             .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
 
         let repositoryOptions = options?.repositoryOptions ?? .default
         switch repositoryOptions {
@@ -114,7 +114,7 @@ public extension RemoteLocalIdentifiableSingleRepository where T: Expirable {
         }
         return .zip(
             Observable.just(list.pagination),
-            Observable.deferred { .just(list.data.map { $0.id }) },
+            Observable.deferred { .just(list.data.map(\.id )) },
             Observable.merge(singleObservables)
                 .toArray()
                 .asObservable()

@@ -30,7 +30,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         let store = self.scene?.store
         store?.state
             .filter { !$0.isLogout }
-            .compactMap { $0.error }
+            .compactMap(\.error)
             .subscribe(onNext: {
                 [weak self] error in
                 self?.onError(error)
@@ -40,7 +40,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         store?
             .state
             .filter { $0.error == nil }
-            .map { $0.isLogout }
+            .map(\.isLogout)
             .filter { $0 }
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
@@ -52,7 +52,7 @@ class TodoTabBarController: UITabBarController, ConnectedSceneBindableRef {
         store?
             .state
             .filter { $0.error == nil && !$0.isLogout }
-            .map { $0.selectedTodoIndex }
+            .map(\.selectedTodoIndex)
             .filter { $0 >= 0 }
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {

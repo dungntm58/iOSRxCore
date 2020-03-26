@@ -25,13 +25,13 @@ public extension RemoteSingleRepository {
     func create(_ value: T, options: FetchOptions?) -> Observable<T> {
         singleRequest
             .create(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
     }
 
     func update(_ value: T, options: FetchOptions?) -> Observable<T> {
         singleRequest
             .update(value, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
     }
 
     func delete(_ value: T, options: FetchOptions?) -> Observable<Void> {
@@ -45,7 +45,7 @@ public extension RemoteIdentifiableSingleRepository {
     func get(id: T.IDType, options: FetchOptions?) -> Observable<T> {
         singleRequest
             .get(id: id, options: options?.requestOptions)
-            .compactMap { $0.result }
+            .compactMap(\.result)
     }
 
     func delete(id: T.IDType, options: FetchOptions?) -> Observable<Void> {

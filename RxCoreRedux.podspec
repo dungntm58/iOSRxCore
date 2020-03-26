@@ -30,7 +30,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.ios.deployment_target = '9.0'
   s.module_name = 'RxCoreRedux'
-  s.swift_version = "5.1"
+  s.swift_version = "5.2"
   s.prefix_header_file = false
   s.framework = "Foundation"
 

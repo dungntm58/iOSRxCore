@@ -92,7 +92,7 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
                 #endif
                 return (action, newState)
             }
-            .map { $0.1 }
+            .map(\.1)
             .bind(to: _state)
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics

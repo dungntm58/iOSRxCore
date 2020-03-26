@@ -30,7 +30,7 @@ iOS project code-base inspired by modern architectures: Redux, RIBs
 
   s.ios.deployment_target = '9.0'
   s.module_name = 'RxCoreAPNS'
-  s.swift_version = "5.1"
+  s.swift_version = "5.2"
   
   s.source_files = 'Sources/APNS/**/*'
   s.dependency 'RxSwift'
