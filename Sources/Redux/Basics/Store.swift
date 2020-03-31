@@ -81,6 +81,7 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     }
 
     private func run() {
+        #if swift(>=5.2)
         let actionToState = _derivedAction
             .withLatestFrom(_state) {
                 [reducer] action, state -> (Action, State) in
@@ -91,9 +92,24 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
                 Swift.print("Next state:", String(describing: newState))
                 #endif
                 return (action, newState)
-            }
-            .map(\.1)
-            .bind(to: _state)
+        }
+        .map(\.1)
+        .bind(to: _state)
+        #else
+        let actionToState = _derivedAction
+            .withLatestFrom(_state) {
+                [reducer] action, state -> (Action, State) in
+                let newState = reducer(action, state)
+                #if !RELEASE && !PRODUCTION
+                Swift.print("Previous state:", String(describing: state))
+                Swift.print("Action:", String(describing: action))
+                Swift.print("Next state:", String(describing: newState))
+                #endif
+                return (action, newState)
+        }
+        .map { $0.1 }
+        .bind(to: _state)
+        #endif
         let actionToDerivedAction = _action.bind(to: _derivedAction)
         // Handle epics
         let actionToAction = _action

@@ -15,7 +15,11 @@ public extension CoreDataDataStore where T: ManagedObjectBox {
     }
 
     func saveSync(_ values: [T]) throws -> [T] {
+        #if swift(>=5.2)
         try Helper.instance.saveSync(values.map(\.core), ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        #else
+        try Helper.instance.saveSync(values.map { $0.core }, ttl: ttl, managedContext: configuration.managedObjectContext, metaManagedContext: configuration.metaManagedObjectContext)
+        #endif
         return values
     }
 

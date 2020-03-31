@@ -36,7 +36,18 @@ open class BaseListEpic<Action, State, Worker>: Epic where
     }
 
     public func apply(dispatcher: Observable<Action>, actionStream: Observable<Action>, stateStream: Observable<State>) -> Observable<Action> {
-        dispatcher
+        #if swift(>=5.2)
+        let cancelAction = actionStream
+            .of(type: .load)
+            .compactMap { $0.payload as? PayloadListRequestable }
+            .filter(\.cancelRunning)
+        #else
+        let cancelAction = actionStream
+            .of(type: .load)
+            .compactMap { $0.payload as? PayloadListRequestable }
+            .filter { $0.cancelRunning }
+        #endif
+        return dispatcher
             .of(type: .load)
             .map { $0.payload as? PayloadListRequestable }
             .flatMap {
@@ -49,12 +60,7 @@ open class BaseListEpic<Action, State, Worker>: Epic where
                         .map { .init(from: $0, payload: payload) }
                 )
             }
-            .takeUntil(
-                actionStream
-                    .of(type: .load)
-                    .compactMap { $0.payload as? PayloadListRequestable }
-                    .filter(\.cancelRunning)
-            )
+            .takeUntil(cancelAction)
             .map { $0.toAction() }
             .catchError { .just($0.toAction()) }
     }

@@ -21,9 +21,15 @@ open class BaseCollectionViewSource: BaseListViewSource, LoadingAnimatableViewSo
     }
 
     final public func register(in collectionView: UICollectionView) {
+        #if swift(>=5.2)
         if templateSections.first(where: \.cells.isEmpty) != nil {
             preconditionFailure("There is at least one section register no cell")
         }
+        #else
+        if templateSections.first(where: { $0.cells.isEmpty }) != nil {
+            preconditionFailure("There is at least one section register no cell")
+        }
+        #endif
 
         self.collectionView = collectionView
 

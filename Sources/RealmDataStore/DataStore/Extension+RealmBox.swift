@@ -17,7 +17,12 @@ public extension RealmDataStore where T: RealmObjectBox {
 
     @discardableResult
     func saveSync(_ values: [T]) throws -> [T] {
+        #if swift(>=5.2)
         try Helper.instance.saveSync(values.map(\.core), ttl: ttl, realm: realm, update: self.updatePolicy)
+        #else
+        try Helper.instance.saveSync(values.map { $0.core }, ttl: ttl, realm: realm, update: self.updatePolicy)
+        #endif
+        
         return values
     }
 
