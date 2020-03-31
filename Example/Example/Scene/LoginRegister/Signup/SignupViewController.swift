@@ -22,6 +22,7 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        #if swift(>=5.2)
         scene?.store.state
             .compactMap(\.user)
             .subscribeOn(MainScheduler.asyncInstance)
@@ -39,6 +40,25 @@ class SignupViewController: BaseViewController, ConnectedSceneBindableRef {
                 self?.onError(error)
             })
             .disposed(by: disposeBag)
+        #else
+        scene?.store.state
+            .compactMap { $0.user }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.switch(to: TodoScene())
+            })
+            .disposed(by: disposeBag)
+        
+        scene?.store.state
+            .compactMap { $0.error }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] error in
+                self?.onError(error)
+            })
+            .disposed(by: disposeBag)
+        #endif
     }
     
     @IBAction func onSignup(_ sender: UIButton) {

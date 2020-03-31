@@ -27,7 +27,7 @@ open class Store<Action, State>: Storable, Dispatchable where Action: Actionable
     public var currentState: State { _state.value }
 
     public var state: Observable<State> {
-        _state.asObservable().distinctUntilChanged { $0 as AnyObject === $1 as AnyObject }
+        _state.asObservable().distinctUntilChanged()
     }
 
     public init<Reducer>(reducer: Reducer, initialState: State, scheduler: StoreScheduler = SerialDispatchQueueScheduler(qos: .default)) where Reducer: Reducable, Reducer.Action == Action, Reducer.State == State {

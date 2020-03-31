@@ -22,9 +22,10 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        #if swift(>=5.2)
         scene?.store.state
             .compactMap(\.user)
-            .observeOn(MainScheduler.asyncInstance)
+            .subscribeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] _ in
                 self?.scene?.switch(to: TodoScene())
@@ -33,12 +34,31 @@ class LoginViewController: BaseViewController, ConnectedSceneBindableRef {
         
         scene?.store.state
             .compactMap(\.error)
-            .observeOn(MainScheduler.asyncInstance)
+            .subscribeOn(MainScheduler.asyncInstance)
             .subscribe(onNext: {
                 [weak self] error in
                 self?.onError(error)
             })
             .disposed(by: disposeBag)
+        #else
+        scene?.store.state
+            .compactMap { $0.user }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] _ in
+                self?.scene?.switch(to: TodoScene())
+            })
+            .disposed(by: disposeBag)
+        
+        scene?.store.state
+            .compactMap { $0.error }
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: {
+                [weak self] error in
+                self?.onError(error)
+            })
+            .disposed(by: disposeBag)
+        #endif
     }
     
     @IBAction func onLogin(_ sender: UIButton) {

@@ -21,6 +21,7 @@ class TodoListViewSource: BaseTableViewSource {
         cell.height = 80
         super.init(sections: [[cell].makeSection()], shouldAnimateLoading: true)
         
+        #if swift(>=5.2)
         let response = store?.state
             .filter { $0.error == nil && !$0.isLogout }
             .map(\.list)
@@ -32,7 +33,20 @@ class TodoListViewSource: BaseTableViewSource {
             .distinctUntilChanged()
             .bind(to: rx.isAnimating)
             .disposed(by: disposeBag)
-            
+        #else
+        let response = store?.state
+            .filter { $0.error == nil && !$0.isLogout }
+            .map { $0.list }
+            .distinctUntilChanged()
+            .share()
+        
+        response?
+            .map { $0.hasNext }
+            .distinctUntilChanged()
+            .bind(to: rx.isAnimating)
+            .disposed(by: disposeBag)
+        #endif
+        
         response?
             .filter { !$0.isLoading }
             .map {
